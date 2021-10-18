@@ -10,7 +10,7 @@ def read_csv(input_file, delimiter=',', decimal='.'):
     li = []
     try:
         file = open(input_file)
-        _, file_extension = os.path.splitext('/path/to/somefile.ext') not in ['.txt', 'csv']
+        _, file_extension = os.path.splitext(input_file)
         if file_extension not in ['.txt', 'csv']:
             raise Exception('Allowed formats are: .txt, .csv')
     except OSError:
@@ -45,7 +45,7 @@ def read_csv(input_file, delimiter=',', decimal='.'):
         json.dump(d, output, indent=2)
 
 
-read_csv('dummy.csv', ',')
+read_csv('dummy.txt', ',')
 
 
 # data = gpd.read_file("test1.json")

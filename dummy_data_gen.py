@@ -7,5 +7,6 @@ def generate(count):
     a = np.column_stack((np.array(lon), np.array(lat)))
     np.savetxt("dummy.txt", a, delimiter=",")
 
+
 generate(50000)
 
