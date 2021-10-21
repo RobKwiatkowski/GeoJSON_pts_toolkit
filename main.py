@@ -6,24 +6,24 @@ import json
 from collections import OrderedDict
 
 
-def read_csv(input_file, delimiter=',', decimal='.'):
+def read_csv(input_file, output_file='output.json', delimiter=','):
     li = []
     try:
         file = open(input_file)
         _, file_extension = os.path.splitext(input_file)
-        if file_extension not in ['.txt', 'csv']:
-            raise Exception('Allowed formats are: .txt, .csv')
-    except OSError:
+        if file_extension not in ['.txt', '.csv']:
+            raise TypeError('Allowed formats are: .txt, .csv')
+    except FileNotFoundError:
         print('Cannot open. Check the file location, format, etc.')
+        raise
     else:
-        if decimal != '.':
-            pass
         with file:
             reader = csv.reader(file, delimiter=delimiter)
             # check number of columns
             if len(next(reader)) != 2:
                 print('Error! File must have exactly two columns: lat, lon')
                 return None
+            # write the GeoJSON body
             for row in reader:
                 try:
                     d = OrderedDict()
@@ -41,11 +41,12 @@ def read_csv(input_file, delimiter=',', decimal='.'):
     d['features'] = li
 
     # write an output file
-    with open('output.json', 'w') as output:
+    with open(output_file, 'w') as output:
         json.dump(d, output, indent=2)
 
 
-read_csv('dummy.txt', ',')
+if __name__ == '__main__':
+    read_csv('dummy.txt', 'output.json', delimiter=';')
 
 
 # data = gpd.read_file("test1.json")
